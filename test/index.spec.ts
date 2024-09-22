@@ -1,7 +1,6 @@
 import {describe, it} from 'mocha'
 import {assert} from 'chai'
-import {SimpleDate, WeekStartDay} from "../index"
-import {deepStrictEqual} from "assert"
+import {SimpleDate, WeekStartDay} from '../SimpleDate'
 
 describe('index', () => {
 
@@ -14,59 +13,59 @@ describe('index', () => {
     describe('#addDays', () => {
 
         it('Add 1 day', () => {
-            deepStrictEqual(new SimpleDate('2020-01-10').addDays(1).getRaw(), '2020-01-11')
+            assert.deepStrictEqual(new SimpleDate('2020-01-10').addDays(1).getRaw(), '2020-01-11')
         })
 
         it('Add 1 day to January 30', () => {
-            deepStrictEqual(new SimpleDate('2020-01-30').addDays(1).getRaw(), '2020-01-31')
+            assert.deepStrictEqual(new SimpleDate('2020-01-30').addDays(1).getRaw(), '2020-01-31')
         })
 
         it('Add 1 day, February 28, leap year', () => {
-            deepStrictEqual(new SimpleDate('2020-02-28').addDays(1).getRaw(), '2020-02-29')
+            assert.deepStrictEqual(new SimpleDate('2020-02-28').addDays(1).getRaw(), '2020-02-29')
         })
 
         it('Add 1 day with month overflow, January 31', () => {
-            deepStrictEqual(new SimpleDate('2020-01-31').addDays(1).getRaw(), '2020-02-01')
+            assert.deepStrictEqual(new SimpleDate('2020-01-31').addDays(1).getRaw(), '2020-02-01')
         })
 
         it('Add 1 day with month overflow, April 30', () => {
-            deepStrictEqual(new SimpleDate('2020-04-30').addDays(1).getRaw(), '2020-05-01')
+            assert.deepStrictEqual(new SimpleDate('2020-04-30').addDays(1).getRaw(), '2020-05-01')
         })
 
         it('Add 1 day with month overflow in February, non-leap year', () => {
-            deepStrictEqual(new SimpleDate('2021-02-28').addDays(1).getRaw(), '2021-03-01')
+            assert.deepStrictEqual(new SimpleDate('2021-02-28').addDays(1).getRaw(), '2021-03-01')
         })
 
         it('Add 1 day with month overflow in February, leap year', () => {
-            deepStrictEqual(new SimpleDate('2020-02-29').addDays(1).getRaw(), '2020-03-01')
+            assert.deepStrictEqual(new SimpleDate('2020-02-29').addDays(1).getRaw(), '2020-03-01')
         })
 
         it('Add 1 day with month and year overflow', () => {
-            deepStrictEqual(new SimpleDate('2019-12-31').addDays(1).getRaw(), '2020-01-01')
+            assert.deepStrictEqual(new SimpleDate('2019-12-31').addDays(1).getRaw(), '2020-01-01')
         })
 
         it('Subtract 1 day', () => {
-            deepStrictEqual(new SimpleDate('2020-01-10').addDays(-1).getRaw(), '2020-01-09')
+            assert.deepStrictEqual(new SimpleDate('2020-01-10').addDays(-1).getRaw(), '2020-01-09')
         })
 
         it('Subtract 1 day with month overflow, February 1', () => {
-            deepStrictEqual(new SimpleDate('2020-02-01').addDays(-1).getRaw(), '2020-01-31')
+            assert.deepStrictEqual(new SimpleDate('2020-02-01').addDays(-1).getRaw(), '2020-01-31')
         })
 
         it('Subtract 1 day, March 1, non-leap year', () => {
-            deepStrictEqual(new SimpleDate('2021-03-01').addDays(-1).getRaw(), '2021-02-28')
+            assert.deepStrictEqual(new SimpleDate('2021-03-01').addDays(-1).getRaw(), '2021-02-28')
         })
 
         it('Subtract 1 day, March 1, leap year', () => {
-            deepStrictEqual(new SimpleDate('2020-03-01').addDays(-1).getRaw(), '2020-02-29')
+            assert.deepStrictEqual(new SimpleDate('2020-03-01').addDays(-1).getRaw(), '2020-02-29')
         })
 
         it('Subtract 1 day with month overflow, May 1', () => {
-            deepStrictEqual(new SimpleDate('2020-05-01').addDays(-1).getRaw(), '2020-04-30')
+            assert.deepStrictEqual(new SimpleDate('2020-05-01').addDays(-1).getRaw(), '2020-04-30')
         })
 
         it('Subtract 1 day with month and year overflow', () => {
-            deepStrictEqual(new SimpleDate('2020-01-01').addDays(-1).getRaw(), '2019-12-31')
+            assert.deepStrictEqual(new SimpleDate('2020-01-01').addDays(-1).getRaw(), '2019-12-31')
         })
     })
 

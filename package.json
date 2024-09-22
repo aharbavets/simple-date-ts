@@ -24,8 +24,8 @@
     "src"
   ],
   "scripts": {
-    "build": "tsc -d -p ./src --outDir .",
-    "compile": "tsc -p ./src --noEmit",
+    "build": "tsc -d --outDir .",
+    "compile": "tsc --noEmit",
     "lint": "eslint 'src/**/*.{js,ts}' --quiet",
     "postinstall": "npm run build",
     "release": "standard-version -m'%s'",
