@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/gorsash/simple-date-ts/compare/v1.0.19...v1.1.0) (2024-09-24)
+
 ### [1.0.19](https://github.com/gorsash/simple-date-ts/compare/v1.0.18...v1.0.19) (2024-09-22)
 
 ### [1.0.18](https://github.com/gorsash/simple-date-ts/compare/v1.0.17...v1.0.18) (2024-02-10)
