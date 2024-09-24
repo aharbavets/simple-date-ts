@@ -1,6 +1,6 @@
 import {describe, it} from 'mocha'
 import {assert} from 'chai'
-import {SimpleDate, WeekStartDay} from '../SimpleDate'
+import {SimpleDate, WeekStartDay} from '../index'
 
 describe('index', () => {
 
