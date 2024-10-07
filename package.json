@@ -6,6 +6,7 @@
   "repository": "https://github.com/gorsash/simple-date-ts",
   "author": "Alexander Harbavets <alexander.harbavets@gmail.com>",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
     "@types/node": "^22.6.1",
     "typescript": "^5.6.2"
