@@ -26,7 +26,7 @@ describe('index', () => {
         })
     })
 
-    describe('new SimpleDate(new Date("Some pacific date time")).toJsDate().toLocaleDateString()', () => {
+    describe('new SimpleDate(new Date("2024-10-07T08:21:00.000-07:00")).toJsDate().toLocaleDateString()', () => {
         const simpleDate = new SimpleDate(new Date(`2024-10-07T08:21:00.000-07:00`))
 
         it('should return Mon, Oct 7', () => {
