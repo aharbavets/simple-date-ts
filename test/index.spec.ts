@@ -10,6 +10,22 @@ describe('index', () => {
         })
     })
 
+    describe('new SimpleDate(new Date("2024-10-07T08:21:00.000PT"))', () => {
+        // Testing Pacific time on example of October 7, 2024.
+        // This date is daylight saving time, so the offset is -07:00 (otherwise it would be -08:00).
+        let simpleDate = new SimpleDate(new Date(`2024-10-07T08:21:00.000-07:00`))
+
+        it('year should be 2024', () => {
+            assert.equal(simpleDate.getYear(), 2024)
+        })
+        it('Month should be 10', () => {
+            assert.equal(simpleDate.getMonth(), 10)
+        })
+        it('Day of month should be 7', () => {
+            assert.equal(simpleDate.getDayOfMonth(), 7)
+        })
+    })
+
     describe('#addDays', () => {
 
         it('Add 1 day', () => {
