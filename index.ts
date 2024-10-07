@@ -10,7 +10,11 @@ export class SimpleDate {
     private readonly timezoneOffset: number
 
     constructor(value: string|SimpleDate|Date|undefined, timezoneOffset?: number) {
-        this.timezoneOffset = timezoneOffset || (new Date().getTimezoneOffset())
+        if (timezoneOffset !== undefined) {
+            this.timezoneOffset = -timezoneOffset
+        } else {
+            this.timezoneOffset = (new Date().getTimezoneOffset())
+        }
 
         this.raw = '0000-01-01'
 
@@ -40,6 +44,12 @@ export class SimpleDate {
 
                 if (value instanceof Date) {
                     this.raw = value.toISOString().split('T')[0]
+
+                    if (timezoneOffset !== undefined) {
+                        this.timezoneOffset = -timezoneOffset
+                    } else {
+                        this.timezoneOffset = value.getTimezoneOffset()
+                    }
                 }
 
                 break
@@ -129,7 +139,7 @@ export class SimpleDate {
     toString = () => this.raw
 
     getIsoDate = () => {
-        const sign = this.timezoneOffset > 0 ? '+' : '-'
+        const sign = this.timezoneOffset < 0 ? '+' : '-'
         const abs = Math.abs(this.timezoneOffset)
         const hourOffset = padStart(Math.round(abs / 60), 2, '0')
         const minuteOffset = padStart(abs % 60, 2, '0')
@@ -138,7 +148,8 @@ export class SimpleDate {
     }
 
     toJsDate = () => {
-        return new Date(this.getIsoDate())
+        const isoDate = this.getIsoDate()
+        return new Date(isoDate)
     }
 
     toJsDateInUTC = () => new Date(this.raw + 'T00:00:00.000' + 'Z');

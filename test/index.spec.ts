@@ -10,7 +10,7 @@ describe('index', () => {
         })
     })
 
-    describe('new SimpleDate(new Date("2024-10-07T08:21:00.000PT"))', () => {
+    describe('new SimpleDate(new Date("2024-10-07T08:21:00.000-07:00"))', () => {
         // Testing Pacific time on example of October 7, 2024.
         // This date is daylight saving time, so the offset is -07:00 (otherwise it would be -08:00).
         let simpleDate = new SimpleDate(new Date(`2024-10-07T08:21:00.000-07:00`))
@@ -23,6 +23,20 @@ describe('index', () => {
         })
         it('Day of month should be 7', () => {
             assert.equal(simpleDate.getDayOfMonth(), 7)
+        })
+    })
+
+    describe('new SimpleDate(new Date("Some pacific date time")).toJsDate().toLocaleDateString()', () => {
+        const simpleDate = new SimpleDate(new Date(`2024-10-07T08:21:00.000-07:00`))
+
+        it('should return Mon, Oct 7', () => {
+            const localeDateString = simpleDate.toJsDate().toLocaleDateString('en-us', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+            })
+
+            assert.equal(localeDateString, 'Mon, Oct 7')
         })
     })
 
@@ -102,7 +116,7 @@ describe('index', () => {
             let actual = new SimpleDate("2023-02-11").toJsDate()
             assert.equal(typeof actual, "object")
 
-            const timezoneOffset = - new Date().getTimezoneOffset()
+            const timezoneOffset = new Date().getTimezoneOffset()
             const timeZoneOffsetInMilliseconds = timezoneOffset * 60 * 1000
 
             const TIMESTAMP_FEBRUARY_11_2023_IN_UTC = 1676073600000 // calculated using https://www.epochconverter.com
@@ -112,38 +126,45 @@ describe('index', () => {
     })
 
     describe('#getDayOfWeek()', function () {
-        it('getDayOfWeek should return 6 for new SimpleDate("2023-02-11")', () => {
-            assert.equal(new SimpleDate("2023-02-11").getDayOfWeek(), 6)
+        it('getDayOfWeek should return 0 for new SimpleDate("2024-10-20")', () => {
+            assert.equal(new SimpleDate("2024-10-20").getDayOfWeek(), 0)
+        })
+
+        it('getDayOfWeek should return 1 for new SimpleDate("2024-10-21")', () => {
+            assert.equal(new SimpleDate("2024-10-21").getDayOfWeek(), 1)
+        })
+        it('getDayOfWeek should return 6 for new SimpleDate("2024-10-26")', () => {
+            assert.equal(new SimpleDate("2024-10-26").getDayOfWeek(), 6)
         })
     })
 
     describe('#getDayNameInEnglish()', function () {
-        it('getDayNameInEnglish should return Sunday for new SimpleDate("2023-02-05")', () => {
-            assert.equal(new SimpleDate("2023-02-05").getDayNameInEnglish(), 'Sunday')
+        it('getDayNameInEnglish should return Sunday for new SimpleDate("2024-10-20")', () => {
+            assert.equal(new SimpleDate("2024-10-20").getDayNameInEnglish(), 'Sunday')
         })
 
-        it('getDayNameInEnglish should return Monday for new SimpleDate("2023-02-06")', () => {
-            assert.equal(new SimpleDate("2023-02-06").getDayNameInEnglish(), 'Monday')
+        it('getDayNameInEnglish should return Monday for new SimpleDate("2024-10-21")', () => {
+            assert.equal(new SimpleDate("2024-10-21").getDayNameInEnglish(), 'Monday')
         })
 
-        it('getDayNameInEnglish should return Tuesday for new SimpleDate("2023-02-07")', () => {
-            assert.equal(new SimpleDate("2023-02-07").getDayNameInEnglish(), 'Tuesday')
+        it('getDayNameInEnglish should return Tuesday for new SimpleDate("2024-10-22")', () => {
+            assert.equal(new SimpleDate("2024-10-22").getDayNameInEnglish(), 'Tuesday')
         })
 
-        it('getDayNameInEnglish should return Wednesday for new SimpleDate("2023-02-08")', () => {
-            assert.equal(new SimpleDate("2023-02-08").getDayNameInEnglish(), 'Wednesday')
+        it('getDayNameInEnglish should return Wednesday for new SimpleDate("2024-10-23")', () => {
+            assert.equal(new SimpleDate("2024-10-23").getDayNameInEnglish(), 'Wednesday')
         })
 
-        it('getDayNameInEnglish should return Thursday for new SimpleDate("2023-02-09")', () => {
-            assert.equal(new SimpleDate("2023-02-09").getDayNameInEnglish(), 'Thursday')
+        it('getDayNameInEnglish should return Thursday for new SimpleDate("2024-10-24")', () => {
+            assert.equal(new SimpleDate("2024-10-24").getDayNameInEnglish(), 'Thursday')
         })
 
-        it('getDayNameInEnglish should return Friday for new SimpleDate("2023-02-10")', () => {
-            assert.equal(new SimpleDate("2023-02-10").getDayNameInEnglish(), 'Friday')
+        it('getDayNameInEnglish should return Friday for new SimpleDate("2024-10-25")', () => {
+            assert.equal(new SimpleDate("2024-10-25").getDayNameInEnglish(), 'Friday')
         })
 
-        it('getDayNameInEnglish should return Saturday for new SimpleDate("2023-02-11")', () => {
-            assert.equal(new SimpleDate("2023-02-11").getDayNameInEnglish(), 'Saturday')
+        it('getDayNameInEnglish should return Saturday for new SimpleDate("2024-10-26")', () => {
+            assert.equal(new SimpleDate("2024-10-26").getDayNameInEnglish(), 'Saturday')
         })
     })
 
@@ -244,23 +265,23 @@ describe('index', () => {
     })
 
     describe('#firstDayOfWeek', () => {
-        it("SimpleDate('2023-02-20').firstDayOfWeek(WeekStartDay.MONDAY).getRaw() should return '2023-02-20'", () => {
-            assert.equal(new SimpleDate('2023-02-20').firstDayOfWeek(WeekStartDay.MONDAY).getRaw(), '2023-02-20')
+        it("SimpleDate('2023-02-20').firstDayOfWeek(WeekStartDay.MONDAY).getRaw() should return '2024-10-07'", () => {
+            assert.equal(new SimpleDate('2024-10-07').firstDayOfWeek(WeekStartDay.MONDAY).getRaw(), '2024-10-07')
         })
-        it("SimpleDate('2023-02-20').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw() should return '2023-02-19'", () => {
-            assert.equal(new SimpleDate('2023-02-20').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw(), '2023-02-19')
+        it("SimpleDate('2024-10-07').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw() should return '2024-10-06'", () => {
+            assert.equal(new SimpleDate('2024-10-07').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw(), '2024-10-06')
         })
-        it("SimpleDate('2023-02-23').firstDayOfWeek(WeekStartDay.MONDAY).getRaw() should return '2023-02-20'", () => {
-            assert.equal(new SimpleDate('2023-02-23').firstDayOfWeek(WeekStartDay.MONDAY).getRaw(), '2023-02-20')
+        it("SimpleDate('2024-10-07').firstDayOfWeek(WeekStartDay.MONDAY).getRaw() should return '2024-10-07'", () => {
+            assert.equal(new SimpleDate('2024-10-07').firstDayOfWeek(WeekStartDay.MONDAY).getRaw(), '2024-10-07')
         })
-        it("SimpleDate('2023-02-23').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw() should return '2023-02-19'", () => {
-            assert.equal(new SimpleDate('2023-02-23').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw(), '2023-02-19')
+        it("SimpleDate('2024-10-10').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw() should return '2024-10-06'", () => {
+            assert.equal(new SimpleDate('2024-10-10').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw(), '2024-10-06')
         })
-        it("SimpleDate('2023-02-26').firstDayOfWeek(WeekStartDay.MONDAY).getRaw() should return '2023-02-20'", () => {
-            assert.equal(new SimpleDate('2023-02-26').firstDayOfWeek(WeekStartDay.MONDAY).getRaw(), '2023-02-20')
+        it("SimpleDate('2024-10-20').firstDayOfWeek(WeekStartDay.MONDAY).getRaw() should return '2024-10-14'", () => {
+            assert.equal(new SimpleDate('2024-10-20').firstDayOfWeek(WeekStartDay.MONDAY).getRaw(), '2024-10-14')
         })
-        it("SimpleDate('2023-02-26').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw() should return '2023-02-26'", () => {
-            assert.equal(new SimpleDate('2023-02-26').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw(), '2023-02-26')
+        it("SimpleDate('2024-10-20').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw() should return '2024-10-20'", () => {
+            assert.equal(new SimpleDate('2024-10-20').firstDayOfWeek(WeekStartDay.SUNDAY).getRaw(), '2024-10-20')
         })
     })
 
