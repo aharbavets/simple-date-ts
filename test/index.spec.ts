@@ -85,7 +85,13 @@ describe('index', () => {
         it('toJsDate should return correct Date object', () => {
             let actual = new SimpleDate("2023-02-11").toJsDate()
             assert.equal(typeof actual, "object")
-            assert.equal(actual.toISOString(), "2023-02-11T01:00:00.000Z")
+
+            const timezoneOffset = - new Date().getTimezoneOffset()
+            const timeZoneOffsetInMilliseconds = timezoneOffset * 60 * 1000
+
+            const TIMESTAMP_FEBRUARY_11_2023_IN_UTC = 1676073600000 // calculated using https://www.epochconverter.com
+            const TIMESTAMP_FEBRUARY_11_2023_IN_CURRENT_TIME_ZONE = TIMESTAMP_FEBRUARY_11_2023_IN_UTC + timeZoneOffsetInMilliseconds
+            assert.equal(actual.getTime(), TIMESTAMP_FEBRUARY_11_2023_IN_CURRENT_TIME_ZONE)
         })
     })
 
