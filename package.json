@@ -1,6 +1,6 @@
 {
   "name": "simple-date-ts",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A library that makes it easy to work with dates without the time part",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/gorsash/simple-date-ts",
