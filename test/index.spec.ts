@@ -27,11 +27,26 @@ describe('index', () => {
     })
 
     describe('new SimpleDate(new Date("2024-10-07T08:21:00.000-07:00")).toJsDate().toLocaleDateString()', () => {
-        const simpleDate = new SimpleDate(new Date(`2024-10-07T08:21:00.000-07:00`))
+        const date = new Date(`2024-10-07T08:21:00.000-07:00`)
+        const simpleDate = new SimpleDate(date)
+
+        it('date.getDate() should be 7', () => {
+            assert.equal(date.getDate(), 7)
+        })
+
+        it('Year should be 2024', () => {
+            assert.equal(simpleDate.getYear(), 2024)
+        })
+
+        it('Month should be 10', () => {
+            assert.equal(simpleDate.getMonth(), 10)
+        })
+
+        it('Day of month should be 7', () => {
+            assert.equal(simpleDate.getDayOfMonth(), 7)
+        })
 
         it('should return Mon, Oct 7', () => {
-            console.log('raw', simpleDate.getRaw())
-
             const localeDateString = simpleDate.toJsDate().toLocaleDateString('en-us', {
                 weekday: 'short',
                 month: 'short',
@@ -44,14 +59,38 @@ describe('index', () => {
 
     // Run this test in UTC-07:00
     describe('new SimpleDate(new Date("2024-10-20T08:21:00.000-07:00")).toJsDate().toLocaleDateString()', () => {
-        it('should return Mon, Oct 15', () => {
-            const localeDateString = new SimpleDate(new Date(`2024-10-15T20:21:22.000-07:00`)).toJsDate().toLocaleDateString('en-us', {
+        const date = new Date(`2024-10-15T20:21:22.000-07:00`)
+        const simpleDate = new SimpleDate(date)
+
+        it('date.getDate() should be 15', () => {
+            assert.equal(date.getDate(), 15)
+        })
+
+        it('getRaw() should be 2024-10-15', () => {
+            assert.equal(simpleDate.getRaw(), '2024-10-15')
+        })
+
+        it('year should be 2024', () => {
+            assert.equal(simpleDate.getYear(), 2024)
+        })
+
+        it('Month should be 10', () => {
+            assert.equal(simpleDate.getMonth(), 10)
+        })
+
+        it('Day of month should be 15', () => {
+            assert.equal(simpleDate.getDayOfMonth(), 15)
+        })
+
+        it('should return Tue, Oct 15', () => {
+            const localeDateString = simpleDate.toJsDate().toLocaleDateString('en-us', {
                 weekday: 'short',
                 month: 'short',
                 day: 'numeric',
+                timeZone: 'America/Los_Angeles'
             })
 
-            assert.equal(localeDateString, 'Mon, Oct 15')
+            assert.equal(localeDateString, 'Tue, Oct 15')
         })
     })
 
@@ -116,27 +155,18 @@ describe('index', () => {
 
     describe('#getIsoDate()', function () {
         it('getIsoDate should return correct ISO 8601 date', () => {
-            let actual = new SimpleDate("2023-02-11", 60).getIsoDate()
-            assert.equal(actual, "2023-02-11T00:00:00.000+01:00")
-        })
-
-        it('getIsoDate should return correct ISO 8601 date with negative TZ offset', () => {
-            let actual = new SimpleDate("2023-02-11", -60).getIsoDate()
-            assert.equal(actual, "2023-02-11T00:00:00.000-01:00")
+            let actual = new SimpleDate("2023-02-11").getIsoDate()
+            assert.equal(actual, "2023-02-11T00:00:00.000")
         })
     })
 
     describe('#toJsDate()', function () {
         it('toJsDate should return correct Date object', () => {
-            let actual = new SimpleDate("2023-02-11").toJsDate()
+            const actual = new SimpleDate("2023-02-11").toJsDate()
             assert.equal(typeof actual, "object")
 
-            const timezoneOffset = new Date().getTimezoneOffset()
-            const timeZoneOffsetInMilliseconds = timezoneOffset * 60 * 1000
-
-            const TIMESTAMP_FEBRUARY_11_2023_IN_UTC = 1676073600000 // calculated using https://www.epochconverter.com
-            const TIMESTAMP_FEBRUARY_11_2023_IN_CURRENT_TIME_ZONE = TIMESTAMP_FEBRUARY_11_2023_IN_UTC + timeZoneOffsetInMilliseconds
-            assert.equal(actual.getTime(), TIMESTAMP_FEBRUARY_11_2023_IN_CURRENT_TIME_ZONE)
+            const timestamp = new Date(2023, 1, 11, 0, 0, 0, 0).getTime()
+            assert.equal(actual.getTime(), timestamp)
         })
     })
 

@@ -7,15 +7,7 @@ export class SimpleDate {
 
     private readonly raw: string
 
-    private readonly timezoneOffset: number
-
-    constructor(value: string|SimpleDate|Date|undefined, timezoneOffset?: number) {
-        if (timezoneOffset !== undefined) {
-            this.timezoneOffset = -timezoneOffset
-        } else {
-            this.timezoneOffset = (new Date().getTimezoneOffset())
-        }
-
+    constructor(value: string|SimpleDate|Date|undefined) {
         this.raw = '0000-01-01'
 
         switch (typeof value) {
@@ -43,13 +35,13 @@ export class SimpleDate {
                 }
 
                 if (value instanceof Date) {
-                    this.raw = value.toISOString().split('T')[0]
-
-                    if (timezoneOffset !== undefined) {
-                        this.timezoneOffset = -timezoneOffset
-                    } else {
-                        this.timezoneOffset = value.getTimezoneOffset()
-                    }
+                    // IMPORTANT!!!
+                    // Don't use toISOString() or toDateString() etc!
+                    // They might return date strings in non-local timezones which will give us wrong dates!
+                    const year = `${value.getFullYear()}`.padStart(2, '0')
+                    const month = `${value.getMonth() + 1}`.padStart(2, '0')
+                    const day = `${value.getDate()}`.padStart(2, '0')
+                    this.raw = `${year}-${month}-${day}`
                 }
 
                 break
@@ -90,8 +82,6 @@ export class SimpleDate {
     static tomorrow = () => new SimpleDate(new Date()).nextDay()
 
     static yesterday = () => new SimpleDate(new Date()).previousDay()
-
-    static todayInTimeZoneWithOffset = (offset: number) => new SimpleDate(new Date(), offset)
 
     firstDayOfWeek = (weekStartDay: WeekStartDay) => {
         switch (weekStartDay) {
@@ -139,17 +129,11 @@ export class SimpleDate {
     toString = () => this.raw
 
     getIsoDate = () => {
-        const sign = this.timezoneOffset < 0 ? '+' : '-'
-        const abs = Math.abs(this.timezoneOffset)
-        const hourOffset = padStart(Math.round(abs / 60), 2, '0')
-        const minuteOffset = padStart(abs % 60, 2, '0')
-        const timeZoneOffset = hourOffset + ':' + minuteOffset
-        return this.raw + 'T00:00:00.000' + sign + timeZoneOffset
+        return this.raw + 'T00:00:00.000'
     }
 
     toJsDate = () => {
-        const isoDate = this.getIsoDate()
-        return new Date(isoDate)
+        return new Date(this.getYear(), this.getMonth() - 1, this.getDayOfMonth())
     }
 
     toJsDateInUTC = () => new Date(this.raw + 'T00:00:00.000' + 'Z');
