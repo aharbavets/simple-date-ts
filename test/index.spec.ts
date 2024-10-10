@@ -30,6 +30,8 @@ describe('index', () => {
         const simpleDate = new SimpleDate(new Date(`2024-10-07T08:21:00.000-07:00`))
 
         it('should return Mon, Oct 7', () => {
+            console.log('raw', simpleDate.getRaw())
+
             const localeDateString = simpleDate.toJsDate().toLocaleDateString('en-us', {
                 weekday: 'short',
                 month: 'short',
@@ -37,6 +39,19 @@ describe('index', () => {
             })
 
             assert.equal(localeDateString, 'Mon, Oct 7')
+        })
+    })
+
+    // Run this test in UTC-07:00
+    describe('new SimpleDate(new Date("2024-10-20T08:21:00.000-07:00")).toJsDate().toLocaleDateString()', () => {
+        it('should return Mon, Oct 15', () => {
+            const localeDateString = new SimpleDate(new Date(`2024-10-15T20:21:22.000-07:00`)).toJsDate().toLocaleDateString('en-us', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+            })
+
+            assert.equal(localeDateString, 'Mon, Oct 15')
         })
     })
 
