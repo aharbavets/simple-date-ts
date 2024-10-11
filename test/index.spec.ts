@@ -2,6 +2,11 @@ import {describe, it} from 'mocha'
 import {assert} from 'chai'
 import {SimpleDate, WeekStartDay} from '../index'
 
+// !!!IMPORTANT!!!
+// To run tests, please temporarily add
+// "type": "module",
+// to package.json
+// DON'T COMMIT THIS CHANGE!
 describe('index', () => {
 
     describe('new SimpleDate() without parameters', () => {
@@ -59,7 +64,7 @@ describe('index', () => {
 
     // Run this test in UTC-07:00
     describe('new SimpleDate(new Date("2024-10-20T08:21:00.000-07:00")).toJsDate().toLocaleDateString()', () => {
-        const date = new Date(`2024-10-15T20:21:22.000-07:00`)
+        const date = new Date(`2024-10-15T20:21:22.000`)
         const simpleDate = new SimpleDate(date)
 
         it('date.getDate() should be 15', () => {
@@ -87,7 +92,6 @@ describe('index', () => {
                 weekday: 'short',
                 month: 'short',
                 day: 'numeric',
-                timeZone: 'America/Los_Angeles'
             })
 
             assert.equal(localeDateString, 'Tue, Oct 15')
